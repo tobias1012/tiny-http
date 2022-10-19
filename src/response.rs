@@ -348,19 +348,6 @@ where
             self.chunked_threshold(),
         ));
 
-        // add `Date` if not in the headers
-        if !self.headers.iter().any(|h| h.field.equiv("Date")) {
-            self.headers.insert(0, build_date_header());
-        }
-
-        // add `Server` if not in the headers
-        if !self.headers.iter().any(|h| h.field.equiv("Server")) {
-            self.headers.insert(
-                0,
-                Header::from_bytes(&b"Server"[..], &b"tiny-http (Rust)"[..]).unwrap(),
-            );
-        }
-
         // handling upgrade
         if let Some(upgrade) = upgrade {
             self.headers.insert(
